@@ -1,13 +1,10 @@
 body {
-  background-image: url(../../images/BG\ AZUL.png), linear-gradient(123.66deg, #003BE5 12.08%, #00D5E2 86.52%);
-  /* background-color: #ff0000; */
-  background-blend-mode: normal;
-  background-size: cover;
-  background-repeat: no-repeat;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
   align-items: center;
+  background-blend-mode: normal;
+  background-image: url('../../images/BG\ AZUL.png') , linear-gradient(123.66deg, #003be5 12.08%, #00d5e2 86.52%);
+  background-repeat: no-repeat;
+  background-size: cover;
+  min-height: 100vh;
 }
 
 img {
@@ -16,9 +13,12 @@ img {
 }
 
 .login-box {
+  align-items: center;
   background-color: white;
   border-radius: 20px;
   display: flex;
   flex-direction: column;
+  margin: 250px auto 0;
   padding: 100px 200px;
+  width: 700px;
 }

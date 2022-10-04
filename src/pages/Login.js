@@ -46,25 +46,27 @@ class Login extends React.Component {
   render() {
     const { nameInput, isDisable, isLoading } = this.state;
     return (
-      <div data-testid="page-login" className="login-box">
-        <form>
-          <img src={ Logo } alt="logo" />
-          <input
-            type="text"
-            data-testid="login-name-input"
-            onChange={ this.inputHandle }
-          />
-          <button
-            type="submit"
-            data-testid="login-submit-button"
-            disabled={ isDisable }
-            value={ nameInput }
-            onClick={ this.clickHandle }
-          >
-            Entrar
-          </button>
-          {isLoading && <p>Carregando...</p>}
-        </form>
+      <div className="container-login">
+        <div data-testid="page-login" className="login-box">
+          <form>
+            <img src={ Logo } alt="logo" />
+            <input
+              type="text"
+              data-testid="login-name-input"
+              onChange={ this.inputHandle }
+            />
+            <button
+              type="submit"
+              data-testid="login-submit-button"
+              disabled={ isDisable }
+              value={ nameInput }
+              onClick={ this.clickHandle }
+            >
+              Entrar
+            </button>
+            {isLoading && <p>Carregando...</p>}
+          </form>
+        </div>
       </div>
     );
   }
