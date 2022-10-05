@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { createUser } from '../services/userAPI';
 import '../styles/Login.css';
 import Logo from '../assets/logo.png';
+import Loading from '../components/Loading';
 
 class Login extends React.Component {
   constructor() {
@@ -64,7 +65,7 @@ class Login extends React.Component {
             >
               Entrar
             </button>
-            {isLoading && <p>Carregando...</p>}
+            {isLoading && <Loading />}
           </form>
         </div>
       </div>

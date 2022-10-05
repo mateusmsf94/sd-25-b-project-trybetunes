@@ -1,25 +1,35 @@
 import React from 'react';
+import AlbumCard from '../components/AlbumCard';
 import Header from '../components/Header';
+import Loading from '../components/Loading';
+import SearchForm from '../components/SearchForm';
+import searchAlbumsAPI from '../services/searchAlbumsAPI';
 
 class Search extends React.Component {
   constructor() {
     super();
     this.state = {
-      artistName: '',
+      isLoading: false,
+      search: '',
       isDisable: true,
+      albums: [],
+      artist: '',
     };
   }
 
   changeHandler = (event) => {
-    this.setState({
-      artistName: event.target.value,
-    }, this.buttonReady);
+    this.setState(
+      {
+        search: event.target.value,
+      },
+      this.buttonReady,
+    );
   };
 
   buttonReady = () => {
     const MINCHAR = 2;
-    const { artistName } = this.state;
-    if (artistName.length >= MINCHAR) {
+    const { search } = this.state;
+    if (search.length >= MINCHAR) {
       this.setState({
         isDisable: false,
       });
@@ -30,22 +40,59 @@ class Search extends React.Component {
     }
   };
 
+  clickHandler = async (event) => {
+    event.preventDefault();
+    this.setState({
+      isLoading: true,
+    });
+    const { search } = this.state;
+    const albums = await searchAlbumsAPI(search);
+    this.setState({
+      albums,
+      artist: search,
+      search: '',
+      isLoading: false,
+    });
+  };
+
   render() {
-    const { isDisable } = this.state;
+    const { isDisable, search, artist, isLoading, albums } = this.state;
     return (
       <div data-testid="page-search">
         <Header />
-        <form>
-          <input
-            data-testid="search-artist-input"
-            type="text"
-            placeholder="Nome do Artista"
-            onChange={ this.changeHandler }
+        {isLoading ? (
+          <Loading />
+        ) : (
+          <SearchForm
+            changeHandler={ this.changeHandler }
+            inputValue={ search }
+            isDisable={ isDisable }
+            onClick={ this.clickHandler }
           />
-          <button type="submit" data-testid="search-artist-button" disabled={ isDisable }>
-            Pesquisar
-          </button>
-        </form>
+        )}
+        <section>
+          {albums.length === 0 ? (
+            <p>Nenhum álbum foi encontrado</p>
+          ) : (
+            <p>
+              Resultado de álbuns de:
+              {' '}
+              {artist}
+            </p>
+          )}
+          <div>
+            {albums.map((album) => (
+              <AlbumCard
+                key={ album.collectionId }
+                artistName={ album.artistName }
+                artworkUrl100={ album.artworkUrl100 }
+                collectionName={ album.collectionName }
+                collectionId={ album.collectionId }
+              />
+            ))}
+
+          </div>
+        </section>
       </div>
     );
   }
