@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { addSong } from '../services/favoriteSongsAPI';
+import { addSong, getFavoriteSongs } from '../services/favoriteSongsAPI';
 import Loading from './Loading';
 
 class AudioTrack extends React.Component {
@@ -12,6 +12,22 @@ class AudioTrack extends React.Component {
       isLoading: false,
     };
   }
+
+  componentDidMount() {
+    this.fetchFavorites();
+  }
+
+  fetchFavorites = async () => {
+    const { track } = this.props;
+    this.setState({
+      isLoading: true,
+    });
+    const data = await getFavoriteSongs();
+    this.setState({
+      isFavorite: data.some((favTrack) => favTrack.trackId === track.trackId),
+      isLoading: false,
+    });
+  };
 
   changeHandler = (event) => {
     const { track } = this.props;
