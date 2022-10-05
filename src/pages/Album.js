@@ -44,8 +44,7 @@ class Album extends React.Component {
         {data.slice(1).map((track) => (
           <AudioTrack
             key={ track.trackId }
-            previewUrl={ track.previewUrl }
-            trackName={ track.trackName }
+            track={ track }
           />
         ))}
       </div>
